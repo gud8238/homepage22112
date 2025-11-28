@@ -1,0 +1,251 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>서찬아 | AI & 에듀테크 기반 미래교육</title>
+
+    <!-- Tailwind Play CDN -->
+    <script>
+      // Tailwind config (colors / fonts)
+      tailwind = { config: {
+        theme: {
+          extend: {
+            colors: {
+              "pastel-blue": "#E7F2FF",
+              "deep-blue": "#0B3C6B",
+              "steel": "#8C9BA8",
+              "accent": "#5B8FF6"
+            }
+          }
+        }
+      } }
+    </script>
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- React + ReactDOM + Babel (for JSX in browser) -->
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+    <style>
+      /* 간단한 전역 스타일 (fallback) */
+      body { font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial; }
+    </style>
+  </head>
+  <body class="bg-white text-gray-800">
+    <div id="root"></div>
+
+    <script type="text/babel">
+      const { useState } = React;
+
+      /* -----------------------
+         데이터 / 텍스트 — 나중에 여기만 바꾸면 됩니다.
+         ----------------------- */
+      const NAME = "서찬아";
+      const ORG = "목포임성초등학교 교사";
+      const SUBTITLE = "AI & 에듀테크 기반 미래교육";
+      const EMAIL = "rndxmrdl@naver.com";
+
+      const ABOUT_PARAS = [
+        "저는 기술을 통해 교실을 재구성하고, 교사의 본질적 역할을 확장하려는 교육자입니다. 기술은 도구일 뿐이며 본질은 언제나 교육에 있습니다. AI와 에듀테크를 활용해 교사의 업무를 줄이고 학생들과 함께하는 시간을 늘리는 것을 목표로 합니다.",
+        "평소 수업 설계에서 학생 중심의 문제해결, 협업, 창의적 사고를 강조합니다. 교육 데이터와 자동화 도구를 접목해 반복 업무를 줄이고, 교실 활동의 질을 높이는 데 집중합니다."
+      ];
+
+      const EXPERIENCES = [
+        { title: "목포임성초등학교 교사", desc: "초등 교과 수업과 미래교육 수업 설계" },
+        { title: "목포SW교육체험센터 전담", desc: "지역 학생 대상 SW·AI 체험 운영" },
+        { title: "교실혁명 선도교사", desc: "수업 혁신 프로젝트 주도" },
+        { title: "보훈문화 수업안 경진대회", desc: "보훈부장관상 수상 (최우수상)" }
+      ];
+
+      const LECTURES = [
+        { title: "사이버파이 연수", desc: "AI 기초와 교실 적용 실습", file: "사이버파이t.pdf" },
+        { title: "AI 교실 설계 워크숍", desc: "학년별 AI 수업 설계 템플릿 제공" },
+        { title: "에듀테크 도구 실무", desc: "교사용 자동화 및 평가 도구 실습" }
+      ];
+
+      const PROJECTS = [
+        { title: "AI CatchMind", desc: "학생용 AI 퀴즈·추론 게임", img: "aicatchmind.png" },
+        { title: "속담 맞추기 게임", desc: "언어 감각을 키우는 게임형 연수자료", img: "proverb-game.png" },
+        { title: "Shopping Mission", desc: "생활 속 수학 미션형 학습 앱", img: "shopping-mission.png" },
+        { title: "TTS Demo", desc: "수업용 읽기 보조 TTS 데모", img: "tts-demo.png" }
+      ];
+
+      /* -----------------------
+         컴포넌트
+         ----------------------- */
+
+      function Button({ children, href, onClick, primary }) {
+        const base = "px-4 py-2 rounded-full shadow-md font-medium transition transform active:scale-98";
+        const style = primary ? "bg-deep-blue text-white hover:brightness-105" : "bg-white border border-slate-200 text-deep-blue hover:shadow-lg";
+        return (
+          href ? (
+            <a href={href} className={`${base} ${style} inline-block`} onClick={onClick}>
+              {children}
+            </a>
+          ) : (
+            <button className={`${base} ${style}`} onClick={onClick}>{children}</button>
+          )
+        );
+      }
+
+      function Hero() {
+        return (
+          <header className="bg-pastel-blue">
+            <div className="max-w-6xl mx-auto px-6 py-16 lg:py-24 flex flex-col lg:flex-row items-center gap-10">
+              <div className="flex-1">
+                <p className="text-sm font-medium text-steel mb-2">AI & Edutech · Future Classroom</p>
+                <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-deep-blue leading-tight">
+                  {ORG} <span className="block text-accent">{NAME}</span>
+                </h1>
+                <p className="mt-4 text-lg text-gray-700">{SUBTITLE}</p>
+
+                <div className="mt-6 flex gap-3">
+                  <a href={`mailto:${EMAIL}`} aria-label="강의 문의">
+                    <Button primary>강의 문의</Button>
+                  </a>
+                  <a href="#links" aria-label="포트폴리오 보기">
+                    <Button>포트폴리오 보기</Button>
+                  </a>
+                </div>
+
+                <p className="mt-6 text-sm text-steel max-w-prose">
+                  저는 교사의 시간을 학생과의 상호작용에 더 투자할 수 있도록, AI와 에듀테크를 학교 현장에 잘 녹여내는 방법을 연구하고 실천합니다.
+                </p>
+              </div>
+
+              <div className="w-48 h-48 sm:w-56 sm:h-56 lg:w-72 lg:h-72 flex-shrink-0 rounded-2xl overflow-hidden shadow-xl bg-white">
+                <img src="profile.png" alt="프로필 사진" className="w-full h-full object-cover"/>
+              </div>
+            </div>
+          </header>
+        );
+      }
+
+      function About() {
+        return (
+          <section id="about" className="max-w-6xl mx-auto px-6 py-12">
+            <h2 className="text-2xl font-bold text-deep-blue mb-4">나는 어떤 선생님인가요?</h2>
+            <div className="prose max-w-none">
+              {ABOUT_PARAS.map((p,i) => <p key={i} className="text-gray-700">{p}</p>)}
+            </div>
+          </section>
+        );
+      }
+
+      function Experience() {
+        return (
+          <section id="experience" className="bg-white border-t border-b border-gray-100">
+            <div className="max-w-6xl mx-auto px-6 py-12">
+              <h2 className="text-2xl font-bold text-deep-blue mb-6">Experience & Awards</h2>
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                {EXPERIENCES.map((e, idx) => (
+                  <div key={idx} className="p-4 rounded-xl bg-white shadow-sm border">
+                    <h3 className="font-semibold text-deep-blue">{e.title}</h3>
+                    <p className="text-sm text-steel mt-2">{e.desc}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </section>
+        );
+      }
+
+      function Lectures() {
+        return (
+          <section id="lectures" className="max-w-6xl mx-auto px-6 py-12">
+            <h2 className="text-2xl font-bold text-deep-blue mb-6">Lectures · 연수</h2>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              {LECTURES.map((l, idx) => (
+                <div key={idx} className="p-4 rounded-xl bg-white shadow-md border">
+                  <h3 className="text-lg font-semibold text-deep-blue">{l.title}</h3>
+                  <p className="text-sm text-steel mt-2">{l.desc}</p>
+                  {l.file && (
+                    <a href={l.file} download className="inline-block mt-4">
+                      <Button>자료 다운로드</Button>
+                    </a>
+                  )}
+                </div>
+              ))}
+            </div>
+          </section>
+        );
+      }
+
+      function Links() {
+        return (
+          <section id="links" className="bg-pastel-blue">
+            <div className="max-w-6xl mx-auto px-6 py-12">
+              <h2 className="text-2xl font-bold text-deep-blue mb-6">Projects · 웹앱 & 프로젝트</h2>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                {PROJECTS.map((p, idx) => (
+                  <div key={idx} className="bg-white rounded-2xl p-4 shadow-md border overflow-hidden">
+                    <div className="w-full h-40 rounded-lg overflow-hidden bg-gray-50 flex items-center justify-center">
+                      <img src={p.img} alt={`${p.title} 썸네일`} className="object-cover w-full h-full"/>
+                    </div>
+                    <h3 className="mt-4 font-semibold text-deep-blue">{p.title}</h3>
+                    <p className="text-sm text-steel mt-2">{p.desc}</p>
+                    <div className="mt-4">
+                      <a href="#" className="text-sm underline text-accent">자세히 보기 (예시)</a>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </section>
+        );
+      }
+
+      function Contact() {
+        return (
+          <section id="contact" className="max-w-6xl mx-auto px-6 py-12">
+            <div className="rounded-xl bg-white p-8 shadow-md border flex flex-col md:flex-row items-center justify-between gap-6">
+              <div>
+                <h2 className="text-xl font-bold text-deep-blue">강의·연수·컨설팅 문의</h2>
+                <p className="text-steel mt-2">강의·연수·컨설팅 문의는 이메일로 연락 주세요.</p>
+              </div>
+
+              <div>
+                <a href={`mailto:${EMAIL}`} aria-label="이메일 보내기">
+                  <Button primary>{EMAIL}</Button>
+                </a>
+              </div>
+            </div>
+          </section>
+        );
+      }
+
+      function Footer() {
+        const year = 2025;
+        return (
+          <footer className="bg-white border-t mt-8">
+            <div className="max-w-6xl mx-auto px-6 py-8 text-center text-sm text-steel">
+              <div>Designed for MPSW Education Center</div>
+              <div className="mt-2">© {year} Seo Chan A. All Rights Reserved.</div>
+            </div>
+          </footer>
+        );
+      }
+
+      function App() {
+        return (
+          <div className="min-h-screen">
+            <Hero />
+            <main>
+              <About />
+              <Experience />
+              <Lectures />
+              <Links />
+              <Contact />
+            </main>
+            <Footer />
+          </div>
+        );
+      }
+
+      ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+    </script>
+  </body>
+</html>
